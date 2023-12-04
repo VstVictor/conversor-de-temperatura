@@ -1,4 +1,4 @@
-# Interface Gráfica
+# interface gráfica
 
 import PySimpleGUI as psg
 

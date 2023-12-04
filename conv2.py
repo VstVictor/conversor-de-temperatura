@@ -1,4 +1,4 @@
-# Conversor Otimizado
+# conversor otimizado
 
 def fah(cel, fah ):
     return 9 * cel / 5 + 32
