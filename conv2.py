@@ -1,7 +1,7 @@
-# conversor otimizado
+def cel(celsius):
+    fahrenheit = (celsius * 9/5) + 32
+    return fahrenheit
 
-def fah(cel, fah ):
-    return 9 * cel / 5 + 32
-
-def cel(cel, fah):
-    return (fah - 32) / 9 * 5
+def fah(fahrenheit):
+    celsius = (fahrenheit - 32) * 5/9
+    return celsius

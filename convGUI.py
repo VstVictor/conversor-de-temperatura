@@ -1,35 +1,38 @@
-# interface gráfica
-
-import PySimpleGUI as psg
-
+import PySimpleGUI as sg
 import conv2
 
-layout =     [
-                 [psg.Text('Informe Celsius para Fahrenheit: '), psg.InputText(key='input_cel')],
-                 [psg.Text('Informe Fahrenheit para Celsius: '), psg.InputText(key='input_fah')],
-                 [psg.Text('Em Fahrenheit:'), psg.Text('', key='output_fah')],
-                 [psg.Text('Em Celsius:'), psg.Text('', key='output_cel')],
 
-                 [psg.Button('calcular:'), psg.Button('limpar')]
-             ]
-janela = psg.Window('Conversor Simples', layout)
+layout = [
+    [sg.Text('Escolha a conversão:')],
+    [sg.Radio('Celsius para Fahrenheit', 'RADIO1', default=True, key='cel_to_fah'),
+     sg.Radio('Fahrenheit para Celsius', 'RADIO1', key='fah_to_cel')],
+    [sg.Text('Informe a temperatura:'), sg.InputText(key='input_temp')],
+    [sg.Text('Resultado:'), sg.Text('', key='output')],
+    [sg.Button('Calcular'), sg.Button('Limpar'), sg.Button('Sair', button_color=('white', 'red'))]
+]
+
+window = sg.Window('Conversor Simples', layout)
 
 while True:
-    evento, graus = janela.read()
+    event, values = window.read()
 
-    if evento == psg.WIN_CLOSED:
+    if event == sg.WINDOW_CLOSED or event == 'Sair':
         break
-    elif evento == 'limpar':
-        janela['input_cel'].update('')
-        janela['input_fah'].update('')
-        janela['output_cel'].update('')
-        janela['output_fah'].update('')
-        janela['input_cel'].set_focus()
-    elif evento == 'calcular:':
+    elif event == 'Limpar':
+        window['input_temp'].update('')
+        window['output'].update('')
+    elif event == 'Calcular':
         try:
-            cel = float(graus['input_cel'])
-            fah = float(graus['input_fah'])
-            janela['output_cel'].update(conv2.cel(cel, fah))
-            janela['output_fah'].update(conv2.fah(cel, fah))
+            temp = float(values['input_temp'])
+            resultado = ''
+
+            if values['cel_to_fah']:
+                resultado = conv2.cel(temp)
+            elif values['fah_to_cel']:
+                resultado = conv2.fah(temp)
+
+            window['output'].update(resultado)
         except ValueError:
-            pass
+            sg.popup_error('Por favor, insira uma temperatura válida.')
+
+window.close()
